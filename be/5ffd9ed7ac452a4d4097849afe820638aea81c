@@ -1,0 +1,172 @@
+agileboot-common/src/main/java/com/agileboot/common/enums/auth/ClientTypeEnum.java
+  s_f87c0496d0f076::t_40ef81e4551275 1-10
+agileboot-admin/src/main/java/com/agileboot/admin/customize/service/login/UserDetailsServiceImpl.java
+  s_f87c0496d0f076::t_580c41b2aa431a 71
+agileboot-infrastructure/src/main/resources/h2sql/agileboot_data.sql
+  s_f87c0496d0f076::t_8ce50b133be5b5 217-219
+  s_f87c0496d0f076::t_bb58b9cbb7cd5c 229-231
+  s_f87c0496d0f076::t_3917c400157992 117-119
+agileboot-admin/src/main/java/com/agileboot/admin/controller/system/IamUserController.java
+  s_f87c0496d0f076::t_0dbcca537ac895 1,4-11,16,18,20-22,24,26-30
+agileboot-api/src/main/java/com/agileboot/api/customize/service/MiniappAuthService.java
+  s_f87c0496d0f076::t_32ac8445aeefa1 1-43,45-74
+  s_f87c0496d0f076::t_6ba09ad7fc2527 44
+agileboot-domain/src/main/java/com/agileboot/domain/iam/user/db/IamUserMapper.java
+  s_f87c0496d0f076::t_9bad04cd560291 1-15
+agileboot-common/src/main/java/com/agileboot/common/exception/error/ErrorCode.java
+  s_f87c0496d0f076::t_5fe809db16364a 207-218,326-334
+  s_f87c0496d0f076::t_e8dad356a946ab 335
+agileboot-api/src/main/java/com/agileboot/api/customize/service/MiniappLoginResponseDTO.java
+  s_f87c0496d0f076::t_32ac8445aeefa1 1-57
+agileboot-api/src/main/java/com/agileboot/api/customize/config/JwtAuthenticationFilter.java
+  s_f87c0496d0f076::t_a927db7ea724f8 17,34-39
+  s_f87c0496d0f076::t_e53d4b8a936ead 3-6,31-33,43-51
+agileboot-domain/src/main/java/com/agileboot/domain/iam/wechat/db/IamWechatIdentityMapper.java
+  s_f87c0496d0f076::t_9bad04cd560291 1-12,14-16
+  s_f87c0496d0f076::t_a927db7ea724f8 13
+agileboot-domain/src/main/java/com/agileboot/domain/system/user/db/SysUserEntity.java
+  s_f87c0496d0f076::t_9bad04cd560291 35-42
+agileboot-domain/src/main/java/com/agileboot/domain/iam/user/db/IamUserServiceImpl.java
+  s_f87c0496d0f076::t_9bad04cd560291 1-18
+AGENTS.md
+  s_f87c0496d0f076::t_1256717d254d5c 1-100
+agileboot-domain/src/main/java/com/agileboot/domain/iam/auth/dto/MiniappAuthContextDTO.java
+  s_f87c0496d0f076::t_61300cf9257a1f 1-50
+agileboot-api/src/main/java/com/agileboot/api/controller/auth/MiniappAuthController.java
+  s_f87c0496d0f076::t_63d9f5fa4c40bc 10-11,40-41
+  s_f87c0496d0f076::t_32ac8445aeefa1 1-9,12-39,42-65
+agileboot-domain/src/main/java/com/agileboot/domain/iam/auth/MiniappAuthApplicationService.java
+  s_f87c0496d0f076::t_61300cf9257a1f 1-45,47-81,83-129,133,135-163
+  s_f87c0496d0f076::t_d93730827ed6c0 82
+  s_f87c0496d0f076::t_6ba09ad7fc2527 46
+  s_f87c0496d0f076::t_487f88be0de664 130-132,134
+agileboot-common/src/main/java/com/agileboot/common/enums/auth/IamUserStatusEnum.java
+  s_f87c0496d0f076::t_40ef81e4551275 1-32
+agileboot-api/src/main/java/com/agileboot/api/customize/service/WechatCode2SessionClient.java
+  s_f87c0496d0f076::t_24221bd8b45951 1-39
+sql/agileboot_20221007.sql
+  s_f87c0496d0f076::t_2edc463594eab8 422-424,430-432
+  s_f87c0496d0f076::t_015574cf0e1051 399-400
+agileboot-infrastructure/src/main/java/com/agileboot/infrastructure/user/web/SystemLoginUser.java
+  s_f87c0496d0f076::t_580c41b2aa431a 21-22
+agileboot-domain/src/main/java/com/agileboot/domain/iam/auth/StaffBindingApplicationService.java
+  s_f87c0496d0f076::t_d93730827ed6c0 37,68,81
+  s_f87c0496d0f076::t_5fe809db16364a 1-36,38-57,59-67,69-80,82-103
+  s_f87c0496d0f076::t_053b20447b4865 58
+agileboot-domain/src/main/java/com/agileboot/domain/iam/auth/dto/IamUnboundUserDTO.java
+  s_f87c0496d0f076::t_5fe809db16364a 1-33
+agileboot-admin/src/main/java/com/agileboot/admin/customize/service/login/TokenService.java
+  s_f87c0496d0f076::t_580c41b2aa431a 17,70,98-108,134,138-150
+sql/用户登录改造升级.sql
+  s_f87c0496d0f076::t_4c6dddec4a7cdf 1-38
+  s_f87c0496d0f076::t_3917c400157992 39-45
+agileboot-domain/src/main/java/com/agileboot/domain/iam/auth/command/MiniappBindingCommand.java
+  s_f87c0496d0f076::t_13c2ad2959aa30 1-14
+agileboot-api/src/main/java/com/agileboot/api/customize/service/MiniappTokenService.java
+  s_f87c0496d0f076::t_24221bd8b45951 3,5-6,8-12,14,20,22,30,34,36-40,43-44,46-50,52-79,82-111,113-116,118-123,127,130-132,135-142,145-152
+agileboot-infrastructure/src/main/java/com/agileboot/infrastructure/auth/AuthSessionService.java
+  s_f87c0496d0f076::t_9fe335c1d72696 1-74
+agileboot-domain/src/main/java/com/agileboot/domain/iam/user/db/IamUserEntity.java
+  s_f87c0496d0f076::t_9bad04cd560291 1-45
+agileboot-api/src/main/java/com/agileboot/api/customize/service/MiniappLoginCommand.java
+  s_f87c0496d0f076::t_32ac8445aeefa1 1-20
+agileboot-api/src/main/resources/application-dev.yml
+  s_f87c0496d0f076::t_92733687468338 1-18
+agileboot-infrastructure/src/main/java/com/agileboot/infrastructure/auth/AuthSession.java
+  s_f87c0496d0f076::t_9fe335c1d72696 1-34
+agileboot-api/src/main/resources/application-test.yml
+  s_f87c0496d0f076::t_92733687468338 1-17
+agileboot-common/src/main/java/com/agileboot/common/enums/auth/IdentityTypeEnum.java
+  s_f87c0496d0f076::t_40ef81e4551275 1-10
+agileboot-domain/src/main/java/com/agileboot/domain/iam/wechat/db/IamWechatIdentityServiceImpl.java
+  s_f87c0496d0f076::t_9bad04cd560291 1-17
+agileboot-infrastructure/src/main/java/com/agileboot/infrastructure/user/miniapp/MiniappLoginUser.java
+  s_f87c0496d0f076::t_9fe335c1d72696 1-41
+agileboot-infrastructure/src/main/java/com/agileboot/infrastructure/annotations/ratelimit/RateLimitKey.java
+  s_f87c0496d0f076::t_63d9f5fa4c40bc 13-14
+agileboot-api/src/main/java/com/agileboot/api/AgileBooApiApplication.java
+  s_f87c0496d0f076::t_92733687468338 16
+agileboot-infrastructure/src/main/java/com/agileboot/infrastructure/user/AuthenticationUtils.java
+  s_f87c0496d0f076::t_9fe335c1d72696 7,51-60
+  s_f87c0496d0f076::t_39c32966349eb5 61
+agileboot-domain/src/main/java/com/agileboot/domain/iam/wechat/db/IamWechatIdentityEntity.java
+  s_f87c0496d0f076::t_9bad04cd560291 1-38
+agileboot-api/src/main/java/com/agileboot/api/customize/service/WechatCode2SessionClientImpl.java
+  s_f87c0496d0f076::t_24221bd8b45951 1-77
+agileboot-domain/src/main/java/com/agileboot/domain/iam/user/IamAccountProvisioningService.java
+  s_f87c0496d0f076::t_61300cf9257a1f 1-51
+agileboot-domain/src/main/java/com/agileboot/domain/iam/auth/command/MiniappUnbindCommand.java
+  s_f87c0496d0f076::t_5fe809db16364a 1-14
+agileboot-common/src/main/java/com/agileboot/common/enums/auth/SubjectTypeEnum.java
+  s_f87c0496d0f076::t_40ef81e4551275 1-10
+agileboot-infrastructure/src/main/resources/h2sql/agileboot_schema.sql
+  s_f87c0496d0f076::t_8f033ec05f4b19 161-162,186-223
+  s_f87c0496d0f076::t_25bc1302c6fb01 224
+sql/agileboot-20230814.sql
+  s_f87c0496d0f076::t_3917c400157992 166-168
+  s_f87c0496d0f076::t_8ce50b133be5b5 331-333
+  s_f87c0496d0f076::t_10c41ece21afb7 341-342,363-365,369-400
+agileboot-domain/src/main/java/com/agileboot/domain/system/user/db/SysUserMapper.java
+  s_f87c0496d0f076::t_9bad04cd560291 11,26-36,42-54
+  s_f87c0496d0f076::t_053b20447b4865 37-39
+  s_f87c0496d0f076::t_018849ca7d8c22 40-41
+docs/用户登录改造设计文档.md
+  s_f87c0496d0f076::t_3d51c12c64aabf 183,185,273,331,333-339,341-345,427,453-457,466
+  s_f87c0496d0f076::t_487f88be0de664 316-317,320,702
+  s_f87c0496d0f076::t_6eb426f4d737e6 1-7,9,11-15,17-20,23-86,88-92,94-178,180,182,184,186-272,274-291,293-315,318-319,321-330,332,346-353,355-362,364,366,368-404,407-426,428-452,458-465,467-565,567-580,582-585,587-661,663-701,703-723,725-751
+  s_f87c0496d0f076::t_48989aadbbe153 8,10
+  s_f87c0496d0f076::t_3bee2f3f31ef32 16,87
+  s_f87c0496d0f076::t_8982cf380343d6 292,340,365,566,581,586,662
+  s_f87c0496d0f076::t_1055816d1adbf4 21-22,93,363,405-406
+  s_f87c0496d0f076::t_a719af864081b6 179,181
+  s_f87c0496d0f076::t_6a140333e3c6d3 354,367
+  s_f87c0496d0f076::t_6ba09ad7fc2527 724
+agileboot-admin/src/main/java/com/agileboot/admin/controller/system/SysUserController.java
+  s_f87c0496d0f076::t_f00df168bedec4 26-27,188,201,215
+  s_f87c0496d0f076::t_13c2ad2959aa30 22-25,28,58-61
+  s_f87c0496d0f076::t_f9e45770204221 179-185,189-198,202-211,214,216-219
+  s_f87c0496d0f076::t_5705970de1531b 186-187,199-200,212-213
+agileboot-domain/src/main/java/com/agileboot/domain/iam/wechat/db/IamWechatIdentityService.java
+  s_f87c0496d0f076::t_9bad04cd560291 1-11
+agileboot-api/src/main/java/com/agileboot/api/customize/config/MiniappAuthProperties.java
+  s_f87c0496d0f076::t_24221bd8b45951 1-40
+docs/用户登录改造需求文档.md
+  s_f87c0496d0f076::t_1055816d1adbf4 37-38,106,183,509-511
+  s_f87c0496d0f076::t_487f88be0de664 203,223-224,227,232,255-256,268
+  s_f87c0496d0f076::t_a0ba7b3dfe1ae1 1-7,9-24,26-35,41-53,55-100,102,108-166,168-182,184-192,194-196,198,204,206,208,210-219,221,236-254,258-267,270-386,388-451,453,455,457-505,507,514-526,528-530,532-549
+  s_f87c0496d0f076::t_1429d02e89cf66 36
+  s_f87c0496d0f076::t_c596b2a32bfc1f 25,39-40,101,103-105,107,167,193,207,209,220,222,225-226,228-231,233-235,257,269,506,508,512-513,552-559
+  s_f87c0496d0f076::t_3d51c12c64aabf 197,199-202,205,387
+  s_f87c0496d0f076::t_bafc35da07f15e 54,452,454,456,531
+  s_f87c0496d0f076::t_6ba09ad7fc2527 527
+  s_f87c0496d0f076::t_48989aadbbe153 8,550-551
+agileboot-domain/src/main/java/com/agileboot/domain/iam/user/db/IamUserService.java
+  s_f87c0496d0f076::t_9bad04cd560291 1-12
+agileboot-domain/src/main/java/com/agileboot/domain/iam/auth/command/MiniappWorkbenchCommand.java
+  s_f87c0496d0f076::t_5fe809db16364a 1-14
+agileboot-infrastructure/src/main/java/com/agileboot/infrastructure/cache/RedisUtil.java
+  s_f87c0496d0f076::t_9fe335c1d72696 143-156
+agileboot-common/src/main/java/com/agileboot/common/enums/auth/EntryTypeEnum.java
+  s_f87c0496d0f076::t_40ef81e4551275 1-10
+agileboot-api/src/main/java/com/agileboot/api/customize/config/SecurityConfig.java
+  s_f87c0496d0f076::t_a927db7ea724f8 12,70
+  s_f87c0496d0f076::t_e53d4b8a936ead 9,31
+agileboot-infrastructure/src/main/resources/application-basic.yml
+  s_f87c0496d0f076::t_92733687468338 95-108
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "be5ffd9ed7ac452a4d4097849afe820638aea81c",
+  "prompts": {},
+  "sessions": {
+    "s_f87c0496d0f076": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cbfd-78d4-7ba1-b2dc-d7120c6a9a1f",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "wangxj <wangxiaojie@helipay.com>"
+    }
+  }
+}
