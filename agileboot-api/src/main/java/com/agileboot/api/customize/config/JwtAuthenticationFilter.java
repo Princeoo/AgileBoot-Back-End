@@ -1,8 +1,9 @@
 package com.agileboot.api.customize.config;
 
-import com.agileboot.api.customize.service.JwtTokenService;
-import com.agileboot.infrastructure.user.app.AppLoginUser;
-import io.jsonwebtoken.Claims;
+import com.agileboot.api.customize.service.MiniappTokenService;
+import com.agileboot.api.customize.service.MiniappTokenService.TokenSession;
+import com.agileboot.domain.iam.auth.MiniappAuthApplicationService;
+import com.agileboot.infrastructure.user.miniapp.MiniappLoginUser;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -26,25 +28,27 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtTokenService jwtTokenService;
+    private final MiniappTokenService tokenService;
+
+    private final MiniappAuthApplicationService authApplicationService;
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        return HttpMethod.POST.matches(request.getMethod())
+            && "/miniapp/auth/login".equals(request.getServletPath());
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String tokenFromRequest = jwtTokenService.getTokenFromRequest(request);
+        String tokenFromRequest = tokenService.getTokenFromRequest(request);
 
-        if (tokenFromRequest != null) {
-            Claims claims = jwtTokenService.parseToken(tokenFromRequest);
-            String token = (String) claims.get("token");
-            // 根据token去查缓存里面 有没有对应的App用户
-            // 没有的话  再去数据库中查询
-            if (token != null && token.equals("user1")) {
-                AppLoginUser loginUser = new AppLoginUser(23232323L, false, "dasdsadsds");
-                loginUser.grantAppPermission("annie");
-                UsernamePasswordAuthenticationToken suer1 = new UsernamePasswordAuthenticationToken(loginUser, null,
-                    loginUser.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(suer1);
-            }
+        if (tokenFromRequest != null && !tokenFromRequest.trim().isEmpty()) {
+            TokenSession tokenSession = tokenService.authenticate(tokenFromRequest);
+            authApplicationService.assertLoginAllowed(tokenSession.getSession().getSubjectId());
+            MiniappLoginUser loginUser = tokenSession.getSession().getPrincipal();
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(loginUser, null,
+                loginUser.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
         filterChain.doFilter(request, response);

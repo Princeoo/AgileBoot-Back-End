@@ -163,6 +163,9 @@ INSERT INTO  sys_menu (menu_id, menu_name, menu_type, router_name, parent_id, pa
 INSERT INTO  sys_menu (menu_id, menu_name, menu_type, router_name, parent_id, path, is_button, permission, meta_info, status, remark, creator_id, create_time, updater_id, update_time, deleted) VALUES (63, 'AgileBoot Github地址', 4, 'https://github.com/valarchie/AgileBoot-Back-End', 0, '/external', 0, '', '{"title":"AgileBoot Github地址","icon":"fa-solid:external-link-alt","showParent":true,"rank":9}', 1, 'Agileboot github地址', 0, '2022-05-21 08:30:54', 1, '2023-08-14 23:12:13', 0);
 INSERT INTO  sys_menu (menu_id, menu_name, menu_type, router_name, parent_id, path, is_button, permission, meta_info, status, remark, creator_id, create_time, updater_id, update_time, deleted) VALUES (64, '首页', 2, '', 0, '/global', 0, '121212', '{"title":"首页","showParent":true,"rank":3}', 1, '', 1, '2023-07-24 22:36:03', 1, '2023-07-24 22:38:37', 1);
 INSERT INTO  sys_menu (menu_id, menu_name, menu_type, router_name, parent_id, path, is_button, permission, meta_info, status, remark, creator_id, create_time, updater_id, update_time, deleted) VALUES (65, '个人中心', 1, 'PersonalCenter', 2053, '/system/user/profile', 0, '434sdf', '{"title":"个人中心","showParent":true,"rank":3}', 1, '', 1, '2023-07-24 22:36:55', null, null, 1);
+INSERT INTO  sys_menu (menu_id, menu_name, menu_type, router_name, parent_id, path, is_button, permission, meta_info, status, remark, creator_id, create_time, updater_id, update_time, deleted) VALUES (66, '绑定小程序账号', 0, ' ', 5, '', 1, 'system:user:miniappBind', '{"title":"绑定小程序账号"}', 1, '', 0, NOW(), null, null, 0);
+INSERT INTO  sys_menu (menu_id, menu_name, menu_type, router_name, parent_id, path, is_button, permission, meta_info, status, remark, creator_id, create_time, updater_id, update_time, deleted) VALUES (67, '解绑小程序账号', 0, ' ', 5, '', 1, 'system:user:miniappUnbind', '{"title":"解绑小程序账号"}', 1, '', 0, NOW(), null, null, 0);
+INSERT INTO  sys_menu (menu_id, menu_name, menu_type, router_name, parent_id, path, is_button, permission, meta_info, status, remark, creator_id, create_time, updater_id, update_time, deleted) VALUES (68, '小程序工作台开关', 0, ' ', 5, '', 1, 'system:user:miniappWorkbench', '{"title":"小程序工作台开关"}', 1, '', 0, NOW(), null, null, 0);
 
 create table sys_notice
 (
@@ -325,6 +328,9 @@ INSERT INTO  sys_role_menu (role_id, menu_id) VALUES (2, 58);
 INSERT INTO  sys_role_menu (role_id, menu_id) VALUES (2, 59);
 INSERT INTO  sys_role_menu (role_id, menu_id) VALUES (2, 60);
 INSERT INTO  sys_role_menu (role_id, menu_id) VALUES (2, 61);
+INSERT INTO  sys_role_menu (role_id, menu_id) VALUES (2, 66);
+INSERT INTO  sys_role_menu (role_id, menu_id) VALUES (2, 67);
+INSERT INTO  sys_role_menu (role_id, menu_id) VALUES (2, 68);
 INSERT INTO  sys_role_menu (role_id, menu_id) VALUES (3, 1);
 INSERT INTO  sys_role_menu (role_id, menu_id) VALUES (111, 1);
 
@@ -332,6 +338,8 @@ create table sys_user
 (
     user_id      bigint auto_increment comment '用户ID'
         primary key,
+    iam_user_id  bigint                  null comment '绑定的统一账号ID',
+    miniapp_workbench_enabled tinyint(1) default 0 not null comment '是否允许使用小程序工作台',
     post_id      bigint                  null comment '职位id',
     role_id      bigint                  null comment '角色id',
     dept_id      bigint                  null comment '部门ID',
@@ -352,9 +360,43 @@ create table sys_user
     updater_id   bigint                  null comment '更新者ID',
     update_time  datetime                null comment '更新时间',
     remark       varchar(512)            null comment '备注',
-    deleted      tinyint(1)   default 0  not null comment '删除标志（0代表存在 1代表删除）'
+    deleted      tinyint(1)   default 0  not null comment '删除标志（0代表存在 1代表删除）',
+    unique key uk_sys_user_iam_user (iam_user_id),
+    key idx_sys_user_workbench (miniapp_workbench_enabled, status)
 )
     comment '用户信息表';
+
+create table iam_user
+(
+    user_id         bigint auto_increment primary key comment '统一账号ID',
+    nickname        varchar(64)  not null default '微信用户' comment '昵称',
+    avatar          varchar(512) not null default '' comment '头像地址',
+    phone_number    varchar(32)  not null default '' comment '手机号',
+    status          smallint     not null default 1 comment '1正常 2停用 3冻结',
+    last_login_ip   varchar(128) not null default '' comment '最后登录IP',
+    last_login_time datetime     null comment '最后登录时间',
+    creator_id      bigint       null,
+    create_time     datetime     not null,
+    updater_id      bigint       null,
+    update_time     datetime     null,
+    deleted         tinyint(1)   not null default 0 comment '逻辑删除',
+    key idx_iam_user_status (status)
+) comment '统一账号表';
+
+create table iam_wechat_identity
+(
+    identity_id bigint auto_increment primary key comment '微信身份ID',
+    user_id     bigint       not null comment '统一账号ID',
+    app_id      varchar(64)  not null comment '微信AppID',
+    open_id     varchar(128) not null comment '微信OpenID',
+    union_id    varchar(128) not null default '' comment '微信UnionID',
+    create_time datetime     not null,
+    update_time datetime     null,
+    deleted     tinyint(1)   not null default 0 comment '逻辑删除',
+    unique key uk_iam_wechat_app_open (app_id, open_id),
+    key idx_iam_wechat_user (user_id),
+    key idx_iam_wechat_union (union_id)
+) comment '微信身份表';
 
 INSERT INTO  sys_user (user_id, post_id, role_id, dept_id, username, nickname, user_type, email, phone_number, sex, avatar, password, status, login_ip, login_date, is_admin, creator_id, create_time, updater_id, update_time, remark, deleted) VALUES (1, 1, 1, 4, 'admin', 'valarchie1', 0, 'agileboot@163.com', '15888888883', 0, '/profile/avatar/20230725164110_blob_6b7a989b1cdd4dd396665d2cfd2addc5.png', '$2a$10$o55UFZAtyWnDpRV6dvQe8.c/MjlFacC49ASj2usNXm9BY74SYI/uG', 1, '127.0.0.1', '2023-08-14 23:07:03', 1, null, '2022-05-21 08:30:54', 1, '2023-08-14 23:07:03', '管理员', 0);
 INSERT INTO  sys_user (user_id, post_id, role_id, dept_id, username, nickname, user_type, email, phone_number, sex, avatar, password, status, login_ip, login_date, is_admin, creator_id, create_time, updater_id, update_time, remark, deleted) VALUES (2, 2, 2, 5, 'ag1', 'valarchie2', 0, 'agileboot1@qq.com', '15666666666', 1, '/profile/avatar/20230725114818_avatar_b5bf400732bb43369b4df58802049b22.png', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', 1, '127.0.0.1', '2022-05-21 08:30:54', 0, null, '2022-05-21 08:30:54', null, null, '测试员1', 0);

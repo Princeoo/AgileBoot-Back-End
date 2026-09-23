@@ -1,0 +1,18 @@
+# API 服务数据源与缓存配置。生产部署请使用环境变量或外部配置中心覆盖。
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    dynamic:
+      primary: master
+      strict: false
+      datasource:
+        master:
+          url: ${AGILEBOOT_DB_URL:jdbc:mysql://localhost:33067/agileboot-pure?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8}
+          username: ${AGILEBOOT_DB_USERNAME:root}
+          password: ${AGILEBOOT_DB_PASSWORD:}
+  redis:
+    host: ${AGILEBOOT_REDIS_HOST:localhost}
+    port: ${AGILEBOOT_REDIS_PORT:6379}
+    database: ${AGILEBOOT_REDIS_DATABASE:0}
+    password: ${AGILEBOOT_REDIS_PASSWORD:}

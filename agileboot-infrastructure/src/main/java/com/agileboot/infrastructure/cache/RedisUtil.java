@@ -141,6 +141,20 @@ public class RedisUtil {
     }
 
     /**
+     * 向 Redis Set 添加值。
+     */
+    public <T> void addCacheSet(final String key, final T value) {
+        redisTemplate.opsForSet().add(key, value);
+    }
+
+    /**
+     * 从 Redis Set 删除值。
+     */
+    public <T> void removeCacheSet(final String key, final T value) {
+        redisTemplate.opsForSet().remove(key, value);
+    }
+
+    /**
      * 缓存Map
      */
     public <T> void setCacheMap(final String key, final Map<String, T> dataMap) {

@@ -32,6 +32,14 @@ public class SysUserEntity extends BaseEntity<SysUserEntity> {
     @TableId(value = "user_id", type = IdType.AUTO)
     private Long userId;
 
+    @ApiModelProperty("绑定的统一账号ID")
+    @TableField("iam_user_id")
+    private Long iamUserId;
+
+    @ApiModelProperty("是否允许使用小程序工作台")
+    @TableField("miniapp_workbench_enabled")
+    private Boolean miniappWorkbenchEnabled;
+
     @ApiModelProperty("职位id")
     @TableField("post_id")
     private Long postId;

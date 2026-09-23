@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    dynamic:
+      primary: master
+      strict: false
+      datasource:
+        master:
+          url: jdbc:h2:mem:agileboot-api;DB_CLOSE_DELAY=-1;MODE=MySQL
+  sql:
+    init:
+      platform: mysql
+      schema-locations: classpath:h2sql/agileboot_schema.sql
+      data-locations: classpath:h2sql/agileboot_data.sql
+  redis:
+    host: localhost
+    port: 6379

@@ -1,6 +1,5 @@
 package com.agileboot.api.controller.app;
 
-import com.agileboot.api.customize.service.JwtTokenService;
 import com.agileboot.common.core.base.BaseController;
 import com.agileboot.common.core.dto.ResponseDTO;
 import lombok.AllArgsConstructor;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/app")
 @AllArgsConstructor
 public class AppController extends BaseController {
-
-    private final JwtTokenService jwtTokenService;
 
     /**
      * 访问首页，提示语

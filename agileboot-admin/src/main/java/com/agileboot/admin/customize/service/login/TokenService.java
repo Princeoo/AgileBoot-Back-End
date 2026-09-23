@@ -1,6 +1,5 @@
 package com.agileboot.admin.customize.service.login;
 
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.agileboot.common.constant.Constants.Token;
@@ -15,6 +14,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import java.util.Map;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import lombok.Data;
@@ -67,6 +67,7 @@ public class TokenService {
         if (StrUtil.isNotEmpty(token)) {
             try {
                 Claims claims = parseToken(token);
+                validateWebClaims(claims);
                 // 解析对应的权限以及用户信息
                 String uuid = (String) claims.get(Token.LOGIN_USER_KEY);
 
@@ -94,7 +95,17 @@ public class TokenService {
 
         redisCache.loginUserCache.set(loginUser.getCachedKey(), loginUser);
 
-        return generateToken(MapUtil.of(Token.LOGIN_USER_KEY, loginUser.getCachedKey()));
+        Map<String, Object> claims = new java.util.HashMap<>();
+        claims.put(Token.LOGIN_USER_KEY, loginUser.getCachedKey());
+        claims.put("ver", 2);
+        claims.put("sid", loginUser.getCachedKey());
+        claims.put("ct", "WEB_ADMIN");
+        claims.put("st", "SYS_USER");
+        claims.put("sub", String.valueOf(loginUser.getUserId()));
+        if (loginUser.getIamUserId() != null) {
+            claims.put("iamUserId", loginUser.getIamUserId());
+        }
+        return generateToken(claims);
     }
 
     /**
@@ -120,7 +131,21 @@ public class TokenService {
     private String generateToken(Map<String, Object> claims) {
         return Jwts.builder()
             .setClaims(claims)
+            .setIssuedAt(new Date())
             .signWith(SignatureAlgorithm.HS512, secret).compact();
+    }
+
+    /**
+     * V2 Token 必须属于 Web 管理端；缺少 V2 声明的存量 Token 继续按旧协议处理。
+     */
+    private void validateWebClaims(Claims claims) {
+        Object version = claims.get("ver");
+        if (version == null) {
+            return;
+        }
+        if (!"WEB_ADMIN".equals(claims.get("ct")) || !"SYS_USER".equals(claims.get("st"))) {
+            throw new ApiException(ErrorCode.Client.AUTH_CLIENT_MISMATCH);
+        }
     }
 
     /**

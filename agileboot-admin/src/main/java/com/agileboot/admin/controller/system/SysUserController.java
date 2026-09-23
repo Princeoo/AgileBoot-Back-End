@@ -19,6 +19,13 @@ import com.agileboot.infrastructure.user.AuthenticationUtils;
 import com.agileboot.infrastructure.user.web.SystemLoginUser;
 import com.agileboot.common.enums.common.BusinessTypeEnum;
 import com.agileboot.domain.system.user.db.SearchUserDO;
+import com.agileboot.domain.iam.auth.StaffBindingApplicationService;
+import com.agileboot.domain.iam.auth.command.MiniappBindingCommand;
+import com.agileboot.domain.iam.auth.command.MiniappUnbindCommand;
+import com.agileboot.domain.iam.auth.command.MiniappWorkbenchCommand;
+import com.agileboot.common.enums.auth.ClientTypeEnum;
+import com.agileboot.common.enums.auth.SubjectTypeEnum;
+import com.agileboot.infrastructure.auth.AuthSessionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
@@ -47,6 +54,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class SysUserController extends BaseController {
 
     private final UserApplicationService userApplicationService;
+
+    private final StaffBindingApplicationService staffBindingApplicationService;
+
+    private final AuthSessionService authSessionService;
 
     /**
      * 获取用户列表
@@ -162,6 +173,47 @@ public class SysUserController extends BaseController {
     public ResponseDTO<Void> changeStatus(@PathVariable Long userId, @RequestBody ChangeStatusCommand command) {
         command.setUserId(userId);
         userApplicationService.changeUserStatus(command);
+        return ResponseDTO.ok();
+    }
+
+    /**
+     * Web 后台手动绑定员工与小程序统一账号。
+     */
+    @Operation(summary = "绑定小程序员工账号")
+    @PreAuthorize("@permission.has('system:user:miniappBind')")
+    @PostMapping("/{userId}/miniapp-binding")
+    public ResponseDTO<Void> bindMiniappUser(@PathVariable Long userId,
+        @Validated @RequestBody MiniappBindingCommand command) {
+        Long iamUserId = staffBindingApplicationService.bind(userId, command.getIamUserId());
+        authSessionService.invalidateSubject(ClientTypeEnum.WECHAT_MINIAPP, SubjectTypeEnum.IAM_USER, iamUserId);
+        return ResponseDTO.ok();
+    }
+
+    /**
+     * 解除员工与小程序统一账号的绑定。
+     */
+    @Operation(summary = "解绑小程序员工账号")
+    @PreAuthorize("@permission.has('system:user:miniappUnbind')")
+    @DeleteMapping("/{userId}/miniapp-binding")
+    public ResponseDTO<Void> unbindMiniappUser(@PathVariable Long userId,
+        @Validated @RequestBody MiniappUnbindCommand command) {
+        Long iamUserId = staffBindingApplicationService.unbind(userId);
+        authSessionService.invalidateSubject(ClientTypeEnum.WECHAT_MINIAPP, SubjectTypeEnum.IAM_USER, iamUserId);
+        return ResponseDTO.ok();
+    }
+
+    /**
+     * 开启或关闭小程序工作台入口。
+     */
+    @Operation(summary = "开关小程序工作台")
+    @PreAuthorize("@permission.has('system:user:miniappWorkbench')")
+    @PutMapping("/{userId}/miniapp-workbench")
+    public ResponseDTO<Void> updateMiniappWorkbench(@PathVariable Long userId,
+        @Validated @RequestBody MiniappWorkbenchCommand command) {
+        Long iamUserId = staffBindingApplicationService.updateWorkbench(userId, command);
+        if (iamUserId != null) {
+            authSessionService.invalidateSubject(ClientTypeEnum.WECHAT_MINIAPP, SubjectTypeEnum.IAM_USER, iamUserId);
+        }
         return ResponseDTO.ok();
     }
 

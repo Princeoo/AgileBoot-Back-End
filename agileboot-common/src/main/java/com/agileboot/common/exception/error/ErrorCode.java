@@ -204,6 +204,18 @@ public enum ErrorCode implements ErrorCodeInterface {
 
         USER_ADMIN_CAN_NOT_BE_MODIFY(10515, "管理员不允许做任何修改", "Business.USER_ADMIN_CAN_NOT_BE_MODIFY"),
 
+        // ---------------------------------- IAM / MINIAPP ------------------------------------
+
+        IAM_ACCOUNT_DISABLED(10516, "小程序账号不可用", "Business.IAM_ACCOUNT_DISABLED"),
+
+        IAM_ACCOUNT_FROZEN(10517, "小程序账号已冻结", "Business.IAM_ACCOUNT_FROZEN"),
+
+        STAFF_BIND_INVALID(10518, "绑定凭证无效或无法完成绑定", "Business.STAFF_BIND_INVALID"),
+
+        STAFF_ALREADY_BOUND(10519, "账号已完成员工绑定", "Business.STAFF_ALREADY_BOUND"),
+
+        STAFF_WORKBENCH_DISABLED(10520, "员工工作台未启用", "Business.STAFF_WORKBENCH_DISABLED"),
+
         ;
 
 
@@ -310,6 +322,16 @@ public enum ErrorCode implements ErrorCodeInterface {
         INVALID_TOKEN(107, "token异常", "Client.INVALID_TOKEN"),
 
         TOKEN_PROCESS_FAILED(108, "token处理失败：{}", "Client.TOKEN_PROCESS_FAILED"),
+
+        MINIAPP_CODE_INVALID(109, "登录凭证无效，请重试", "Client.MINIAPP_CODE_INVALID"),
+
+        MINIAPP_PROVIDER_UNAVAILABLE(110, "微信服务暂时不可用", "Client.MINIAPP_PROVIDER_UNAVAILABLE"),
+
+        MINIAPP_APP_NOT_CONFIGURED(111, "小程序配置无效", "Client.MINIAPP_APP_NOT_CONFIGURED"),
+
+        AUTH_SESSION_EXPIRED(112, "登录已过期", "Client.AUTH_SESSION_EXPIRED"),
+
+        AUTH_CLIENT_MISMATCH(113, "凭证不适用于当前客户端", "Client.AUTH_CLIENT_MISMATCH"),
 
         ;
 

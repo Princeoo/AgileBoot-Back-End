@@ -18,6 +18,8 @@ public class SystemLoginUser extends BaseLoginUser {
 
     private Long deptId;
 
+    private Long iamUserId;
+
     private RoleInfo roleInfo;
 
     /**

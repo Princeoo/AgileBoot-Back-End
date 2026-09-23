@@ -92,6 +92,20 @@ token:
     # 自动刷新token的时间
     autoRefreshTime: 20
 
+# 微信小程序登录配置。生产环境通过环境变量注入密钥，不要提交真实 AppSecret。
+miniapp:
+  auth:
+    token-secret: ${MINIAPP_TOKEN_SECRET:}
+    access-token-ttl-minutes: 120
+    bind-code-ttl-minutes: 10
+    apps:
+      patient-miniapp:
+        app-id: ${WECHAT_MINIAPP_APP_ID:}
+        app-secret: ${WECHAT_MINIAPP_APP_SECRET:}
+    wechat:
+      connect-timeout-ms: 3000
+      read-timeout-ms: 5000
+
 # MyBatis配置
 mybatis-plus:
     # 搜索指定包别名 使用简短的类型名称来代替完整的类型名称

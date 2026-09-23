@@ -4,6 +4,7 @@ package com.agileboot.infrastructure.user;
 import com.agileboot.common.exception.ApiException;
 import com.agileboot.common.exception.error.ErrorCode;
 import com.agileboot.infrastructure.user.app.AppLoginUser;
+import com.agileboot.infrastructure.user.miniapp.MiniappLoginUser;
 import com.agileboot.infrastructure.user.web.SystemLoginUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,6 +47,17 @@ public class AuthenticationUtils {
     public static AppLoginUser getAppLoginUser() {
         try {
             return (AppLoginUser) getAuthentication().getPrincipal();
+        } catch (Exception e) {
+            throw new ApiException(ErrorCode.Business.USER_FAIL_TO_GET_USER_INFO);
+        }
+    }
+
+    /**
+     * 获取微信小程序登录主体。
+     */
+    public static MiniappLoginUser getMiniappLoginUser() {
+        try {
+            return (MiniappLoginUser) getAuthentication().getPrincipal();
         } catch (Exception e) {
             throw new ApiException(ErrorCode.Business.USER_FAIL_TO_GET_USER_INFO);
         }

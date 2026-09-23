@@ -68,6 +68,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         SystemLoginUser loginUser = new SystemLoginUser(userEntity.getUserId(), userEntity.getIsAdmin(), userEntity.getUsername(),
             userEntity.getPassword(), roleInfo, userEntity.getDeptId());
+        loginUser.setIamUserId(userEntity.getIamUserId());
         loginUser.fillLoginInfo();
         loginUser.setAutoRefreshCacheTime(loginUser.getLoginInfo().getLoginTime()
             + TimeUnit.MINUTES.toMillis(tokenService.getAutoRefreshTime()));

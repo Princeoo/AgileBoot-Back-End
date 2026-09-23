@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 import java.util.Set;
@@ -21,6 +22,35 @@ import java.util.Set;
  * @since 2022-06-16
  */
 public interface SysUserMapper extends BaseMapper<SysUserEntity> {
+
+    /**
+     * 按统一账号查询后台用户。
+     */
+    @Select("SELECT * FROM sys_user WHERE iam_user_id = #{iamUserId} AND deleted = 0 LIMIT 1")
+    SysUserEntity getByIamUserId(@Param("iamUserId") Long iamUserId);
+
+    /**
+     * 仅在目标员工尚未绑定时完成绑定，避免并发覆盖。
+     */
+    @Update("UPDATE sys_user SET iam_user_id = #{iamUserId}, update_time = CURRENT_TIMESTAMP "
+        + "WHERE user_id = #{sysUserId} AND iam_user_id IS NULL AND deleted = 0 "
+        + "AND status = 1 AND miniapp_workbench_enabled = #{workbenchEnabled}")
+    int bindIamUser(@Param("sysUserId") Long sysUserId, @Param("iamUserId") Long iamUserId,
+        @Param("workbenchEnabled") boolean workbenchEnabled);
+
+    /**
+     * 解除统一账号绑定。
+     */
+    @Update("UPDATE sys_user SET iam_user_id = NULL, update_time = CURRENT_TIMESTAMP "
+        + "WHERE user_id = #{sysUserId} AND deleted = 0")
+    int unbindIamUser(@Param("sysUserId") Long sysUserId);
+
+    /**
+     * 更新小程序工作台开关。
+     */
+    @Update("UPDATE sys_user SET miniapp_workbench_enabled = #{enabled}, update_time = CURRENT_TIMESTAMP "
+        + "WHERE user_id = #{sysUserId} AND deleted = 0")
+    int updateMiniappWorkbench(@Param("sysUserId") Long sysUserId, @Param("enabled") boolean enabled);
 
     /**
      * 根据用户ID查询角色

@@ -158,6 +158,8 @@ create sequence if not exists sys_user_seq start with 4 increment by 1;
 create table sys_user
 (
     user_id      bigint default next value for sys_user_seq,
+    iam_user_id  bigint                  null comment '绑定的统一账号ID',
+    miniapp_workbench_enabled tinyint   default 0 not null comment '是否允许使用小程序工作台',
     post_id      bigint                  null comment '职位id',
     role_id      bigint                  null comment '角色id',
     dept_id      bigint                  null comment '部门ID',
@@ -180,5 +182,44 @@ create table sys_user
     remark       varchar(512)            null comment '备注',
     deleted      tinyint   default 0  not null comment '删除标志（0代表存在 1代表删除）'
 );
+
+create unique index uk_sys_user_iam_user on sys_user (iam_user_id);
+create index idx_sys_user_workbench on sys_user (miniapp_workbench_enabled, status);
+
+create sequence if not exists iam_user_seq start with 1 increment by 1;
+create table iam_user
+(
+    user_id         bigint default next value for iam_user_seq,
+    nickname        varchar(64)  default '微信用户' not null,
+    avatar          varchar(512) default '' not null,
+    phone_number    varchar(32)  default '' not null,
+    status          smallint     default 1 not null,
+    last_login_ip   varchar(128) default '' not null,
+    last_login_time datetime null,
+    creator_id      bigint null,
+    create_time     datetime not null,
+    updater_id      bigint null,
+    update_time     datetime null,
+    deleted         tinyint default 0 not null,
+    primary key (user_id)
+);
+create index idx_iam_user_status on iam_user(status);
+
+create sequence if not exists iam_wechat_identity_seq start with 1 increment by 1;
+create table iam_wechat_identity
+(
+    identity_id bigint default next value for iam_wechat_identity_seq,
+    user_id bigint not null,
+    app_id varchar(64) not null,
+    open_id varchar(128) not null,
+    union_id varchar(128) default '' not null,
+    create_time datetime not null,
+    update_time datetime null,
+    deleted tinyint default 0 not null,
+    primary key (identity_id),
+    constraint uk_iam_wechat_app_open unique (app_id, open_id)
+);
+create index idx_iam_wechat_user on iam_wechat_identity(user_id);
+create index idx_iam_wechat_union on iam_wechat_identity(union_id);
 
 CREATE ALIAS FIND_IN_SET FOR "com.agileboot.infrastructure.mybatisplus.MySqlFunction.findInSet";

@@ -6,8 +6,10 @@ import com.agileboot.common.exception.error.ErrorCode.Client;
 import com.agileboot.common.utils.ServletHolderUtil;
 import com.agileboot.common.utils.jackson.JacksonUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -26,6 +28,7 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
+@EnableConfigurationProperties(MiniappAuthProperties.class)
 public class SecurityConfig {
     /**
      * token认证过滤器
@@ -64,7 +67,7 @@ public class SecurityConfig {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 禁用 session
             .and()
             .authorizeRequests()
-            .antMatchers("/common/**").permitAll()
+            .antMatchers(HttpMethod.POST, "/miniapp/auth/login").permitAll()
             .anyRequest().authenticated()
             .and()
             // 禁用 X-Frame-Options 响应头。下面是具体解释：

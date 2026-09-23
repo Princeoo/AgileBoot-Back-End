@@ -114,6 +114,9 @@ INSERT INTO  sys_menu  VALUES (62, '单条强退', 0, ' ', 13, '', 1, 'monitor:o
 INSERT INTO  sys_menu  VALUES (63, 'AgileBoot Github地址', 4, 'https://github.com/valarchie/AgileBoot-Back-End', 0, '/external', 0, '', '{"title":"AgileBoot Github地址","icon":"fa-solid:external-link-alt","showParent":1,"rank":9}', 1, 'Agileboot github地址', 0, '2022-05-21 08:30:54', 1, '2023-08-14 23:12:13', 0);
 INSERT INTO  sys_menu  VALUES (64, '首页', 2, '', 0, '/global', 0, '121212', '{"title":"首页","showParent":1,"rank":3}', 1, '', 1, '2023-07-24 22:36:03', 1, '2023-07-24 22:38:37', 1);
 INSERT INTO  sys_menu  VALUES (65, '个人中心', 1, 'PersonalCenter', 2053, '/system/user/profile', 0, '434sdf', '{"title":"个人中心","showParent":1,"rank":3}', 1, '', 1, '2023-07-24 22:36:55', null, null, 1);
+INSERT INTO  sys_menu  VALUES (66, '绑定小程序账号', 0, ' ', 5, '', 1, 'system:user:miniappBind', '{"title":"绑定小程序账号"}', 1, '', 0, CURRENT_TIMESTAMP, null, null, 0);
+INSERT INTO  sys_menu  VALUES (67, '解绑小程序账号', 0, ' ', 5, '', 1, 'system:user:miniappUnbind', '{"title":"解绑小程序账号"}', 1, '', 0, CURRENT_TIMESTAMP, null, null, 0);
+INSERT INTO  sys_menu  VALUES (68, '小程序工作台开关', 0, ' ', 5, '', 1, 'system:user:miniappWorkbench', '{"title":"小程序工作台开关"}', 1, '', 0, CURRENT_TIMESTAMP, null, null, 0);
 
 
 -- ----------------------------
@@ -211,6 +214,9 @@ INSERT INTO `sys_role_menu` VALUES ('2', '58');
 INSERT INTO `sys_role_menu` VALUES ('2', '59');
 INSERT INTO `sys_role_menu` VALUES ('2', '60');
 INSERT INTO `sys_role_menu` VALUES ('2', '61');
+INSERT INTO `sys_role_menu` VALUES ('2', '66');
+INSERT INTO `sys_role_menu` VALUES ('2', '67');
+INSERT INTO `sys_role_menu` VALUES ('2', '68');
 -- roleId = 2的权限 特地少一个 方便测试
 INSERT INTO `sys_role_menu` VALUES ('3', '1');
 
@@ -220,6 +226,6 @@ INSERT INTO `sys_role_menu` VALUES ('3', '1');
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', '1', '1', '4', 'admin', 'valarchie1', '0', 'agileboot@163.com', '15888888889', '0', '', '$2a$10$rb1wRoEIkLbIknREEN1LH.FGs4g0oOS5t6l5LQ793nRaFO.SPHDHy', '1', '127.0.0.1', '2022-10-06 17:00:06', 1, null,  '2022-05-21 08:30:54', '1',  '2022-10-06 17:00:06', '管理员', '0');
-INSERT INTO `sys_user` VALUES ('2', '2', '2', '5', 'ag1', 'valarchie2', '0', 'agileboot1@qq.com', '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '1', '127.0.0.1', '2022-05-21 08:30:54', 0, null,  '2022-05-21 08:30:54', null,  null, '测试员1', '0');
-INSERT INTO `sys_user` VALUES ('3', '2', '0', '5', 'ag2', 'valarchie3', '0', 'agileboot2@qq.com', '15666666667', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '1', '127.0.0.1', '2022-05-21 08:30:54', 0, null,  '2022-05-21 08:30:54', null,  null, '测试员2', '0');
+INSERT INTO `sys_user` VALUES ('1', NULL, 0, '1', '1', '4', 'admin', 'valarchie1', '0', 'agileboot@163.com', '15888888889', '0', '', '$2a$10$rb1wRoEIkLbIknREEN1LH.FGs4g0oOS5t6l5LQ793nRaFO.SPHDHy', '1', '127.0.0.1', '2022-10-06 17:00:06', 1, null,  '2022-05-21 08:30:54', '1',  '2022-10-06 17:00:06', '管理员', '0');
+INSERT INTO `sys_user` VALUES ('2', NULL, 0, '2', '2', '5', 'ag1', 'valarchie2', '0', 'agileboot1@qq.com', '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '1', '127.0.0.1', '2022-05-21 08:30:54', 0, null,  '2022-05-21 08:30:54', null,  null, '测试员1', '0');
+INSERT INTO `sys_user` VALUES ('3', NULL, 0, '2', '2', '0', 'ag2', 'valarchie3', '0', 'agileboot2@qq.com', '15666666667', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '1', '127.0.0.1', '2022-05-21 08:30:54', 0, null,  '2022-05-21 08:30:54', null,  null, '测试员2', '0');
