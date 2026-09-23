@@ -47,13 +47,16 @@ public class MiniappTokenService {
         long now = System.currentTimeMillis();
         long ttlSeconds = TimeUnit.MINUTES.toSeconds(properties.getAccessTokenTtlMinutes());
         if (ttlSeconds <= 0) {
+            // 非法配置不应产生立即失效的 Token，统一回退到服务端会话的默认有效期。
             ttlSeconds = AuthSessionService.DEFAULT_TTL_SECONDS;
         }
         String sessionId = IdUtil.fastSimpleUUID();
+
+        // JWT 只承载会话索引和身份声明，完整登录态保存在 Redis，便于主动注销和服务端失效会话。
         AuthSession session = new AuthSession();
         session.setSessionId(sessionId);
         session.setClientType(ClientTypeEnum.WECHAT_MINIAPP);
-        session.setSubjectType(SubjectTypeEnum.IAM_USER);
+        session.setSubjectType(SubjectTypeEnum.MINIAPP_USER);
         session.setSubjectId(loginUser.getIamUserId());
         session.setIssuedAt(now);
         session.setExpiresAt(now + TimeUnit.SECONDS.toMillis(ttlSeconds));
@@ -71,7 +74,7 @@ public class MiniappTokenService {
             .claim("ver", 2)
             .claim("sid", sessionId)
             .claim("ct", ClientTypeEnum.WECHAT_MINIAPP.name())
-            .claim("st", SubjectTypeEnum.IAM_USER.name())
+            .claim("st", SubjectTypeEnum.MINIAPP_USER.name())
             .setIssuedAt(issuedAt)
             .setExpiration(expiresAt)
             .signWith(SignatureAlgorithm.HS512, getSecret())
@@ -86,18 +89,22 @@ public class MiniappTokenService {
             String subjectType = claims.get("st", String.class);
             String sessionId = claims.get("sid", String.class);
             String subjectId = claims.getSubject();
+            // 先限制 Token 的签发端和主体类型，防止其他客户端使用相同密钥时发生 Token 串用。
             if (!ClientTypeEnum.WECHAT_MINIAPP.name().equals(clientType)
-                || !SubjectTypeEnum.IAM_USER.name().equals(subjectType)
+                || !SubjectTypeEnum.MINIAPP_USER.name().equals(subjectType)
                 || sessionId == null || subjectId == null) {
                 throw new ApiException(Client.AUTH_CLIENT_MISMATCH);
             }
+
+            // JWT 验签通过并不代表会话仍有效；Redis 会话是注销、过期等服务端状态的最终依据。
             AuthSession session = authSessionService.get(ClientTypeEnum.WECHAT_MINIAPP, sessionId);
             if (session == null || session.getExpiresAt() <= System.currentTimeMillis()) {
                 throw new ApiException(Client.AUTH_SESSION_EXPIRED);
             }
+            // 对照两侧的会话及主体信息，避免合法 JWT 被错误关联到其他服务端会话。
             if (!sessionId.equals(session.getSessionId()) || !Long.valueOf(subjectId).equals(session.getSubjectId())
                 || session.getClientType() != ClientTypeEnum.WECHAT_MINIAPP
-                || session.getSubjectType() != SubjectTypeEnum.IAM_USER) {
+                || session.getSubjectType() != SubjectTypeEnum.MINIAPP_USER) {
                 throw new ApiException(Client.AUTH_CLIENT_MISMATCH);
             }
             return new TokenSession(claims, session);
@@ -128,6 +135,7 @@ public class MiniappTokenService {
     }
 
     private String getSecret() {
+        // token.secret 作为兼容旧部署的兜底值，新配置优先使用小程序独立密钥。
         return properties.getTokenSecret() == null || properties.getTokenSecret().trim().isEmpty()
             ? fallbackSecret : properties.getTokenSecret();
     }

@@ -185,7 +185,7 @@ public class SysUserController extends BaseController {
     public ResponseDTO<Void> bindMiniappUser(@PathVariable Long userId,
         @Validated @RequestBody MiniappBindingCommand command) {
         Long iamUserId = staffBindingApplicationService.bind(userId, command.getIamUserId());
-        authSessionService.invalidateSubject(ClientTypeEnum.WECHAT_MINIAPP, SubjectTypeEnum.IAM_USER, iamUserId);
+        authSessionService.invalidateSubject(ClientTypeEnum.WECHAT_MINIAPP, SubjectTypeEnum.MINIAPP_USER, iamUserId);
         return ResponseDTO.ok();
     }
 
@@ -198,7 +198,7 @@ public class SysUserController extends BaseController {
     public ResponseDTO<Void> unbindMiniappUser(@PathVariable Long userId,
         @Validated @RequestBody MiniappUnbindCommand command) {
         Long iamUserId = staffBindingApplicationService.unbind(userId);
-        authSessionService.invalidateSubject(ClientTypeEnum.WECHAT_MINIAPP, SubjectTypeEnum.IAM_USER, iamUserId);
+        authSessionService.invalidateSubject(ClientTypeEnum.WECHAT_MINIAPP, SubjectTypeEnum.MINIAPP_USER, iamUserId);
         return ResponseDTO.ok();
     }
 
@@ -212,7 +212,7 @@ public class SysUserController extends BaseController {
         @Validated @RequestBody MiniappWorkbenchCommand command) {
         Long iamUserId = staffBindingApplicationService.updateWorkbench(userId, command);
         if (iamUserId != null) {
-            authSessionService.invalidateSubject(ClientTypeEnum.WECHAT_MINIAPP, SubjectTypeEnum.IAM_USER, iamUserId);
+            authSessionService.invalidateSubject(ClientTypeEnum.WECHAT_MINIAPP, SubjectTypeEnum.MINIAPP_USER, iamUserId);
         }
         return ResponseDTO.ok();
     }

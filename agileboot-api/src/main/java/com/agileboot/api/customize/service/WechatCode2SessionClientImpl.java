@@ -45,6 +45,7 @@ public class WechatCode2SessionClientImpl implements WechatCode2SessionClient {
         try {
             ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
             Map body = response.getBody();
+            // 微信在 HTTP 200 响应中通过 errcode 表示业务失败，不能只依赖 HTTP 状态判断成功。
             int errCode = body == null || body.get("errcode") == null
                 ? 0 : Integer.parseInt(String.valueOf(body.get("errcode")));
             String openId = body == null ? null : stringValue(body.get("openid"));
@@ -55,12 +56,15 @@ public class WechatCode2SessionClientImpl implements WechatCode2SessionClient {
             }
             return new WechatSession(openId, stringValue(body.get("unionid")), stringValue(body.get("session_key")));
         } catch (ApiException exception) {
+            // 保留上方已经归类的业务异常，避免被后续 RuntimeException 分支重新包装。
             throw exception;
         } catch (HttpServerErrorException | ResourceAccessException exception) {
+            // 微信服务端错误、连接失败和读取超时属于上游不可用，客户端可据此决定是否重试。
             log.warn("wechat code2session unavailable, appId={}, durationMs={}", appId,
                 System.currentTimeMillis() - start);
             throw new ApiException(exception, Client.MINIAPP_PROVIDER_UNAVAILABLE);
         } catch (RuntimeException exception) {
+            // 响应格式异常等其余失败按无效登录凭证处理，且日志中不记录 code、secret 或 session_key。
             log.warn("wechat code2session failed, appId={}, durationMs={}", appId,
                 System.currentTimeMillis() - start);
             throw new ApiException(exception, Client.MINIAPP_CODE_INVALID);

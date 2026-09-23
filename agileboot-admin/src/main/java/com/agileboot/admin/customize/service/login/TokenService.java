@@ -3,6 +3,8 @@ package com.agileboot.admin.customize.service.login;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.agileboot.common.constant.Constants.Token;
+import com.agileboot.common.enums.auth.ClientTypeEnum;
+import com.agileboot.common.enums.auth.SubjectTypeEnum;
 import com.agileboot.common.exception.ApiException;
 import com.agileboot.common.exception.error.ErrorCode;
 import com.agileboot.domain.common.cache.RedisCacheService;
@@ -68,7 +70,7 @@ public class TokenService {
             try {
                 Claims claims = parseToken(token);
                 validateWebClaims(claims);
-                // 解析对应的权限以及用户信息
+                // Token 只保存缓存键，权限和用户状态以 Redis 中可主动失效的登录态为准。
                 String uuid = (String) claims.get(Token.LOGIN_USER_KEY);
 
                 return redisCache.loginUserCache.getObjectOnlyInCacheById(uuid);
@@ -91,16 +93,18 @@ public class TokenService {
      * @return 令牌
      */
     public String createTokenAndPutUserInCache(SystemLoginUser loginUser) {
+        // 每次登录生成独立缓存键，使同一用户的不同登录会话可以分别管理。
         loginUser.setCachedKey(IdUtil.fastUUID());
 
         redisCache.loginUserCache.set(loginUser.getCachedKey(), loginUser);
 
         Map<String, Object> claims = new java.util.HashMap<>();
         claims.put(Token.LOGIN_USER_KEY, loginUser.getCachedKey());
+        // V2 声明用于隔离客户端和主体类型；保留缓存键声明以兼容现有鉴权链路。
         claims.put("ver", 2);
         claims.put("sid", loginUser.getCachedKey());
-        claims.put("ct", "WEB_ADMIN");
-        claims.put("st", "SYS_USER");
+        claims.put("ct", ClientTypeEnum.WEB_ADMIN.name());
+        claims.put("st", SubjectTypeEnum.SYS_USER.name());
         claims.put("sub", String.valueOf(loginUser.getUserId()));
         if (loginUser.getIamUserId() != null) {
             claims.put("iamUserId", loginUser.getIamUserId());
@@ -114,6 +118,7 @@ public class TokenService {
      */
     public void refreshToken(SystemLoginUser loginUser) {
         long currentTime = System.currentTimeMillis();
+        // 只在刷新时间窗到达后续期，避免每个请求都写 Redis；JWT 本身不重新签发。
         if (currentTime > loginUser.getAutoRefreshCacheTime()) {
             loginUser.setAutoRefreshCacheTime(currentTime + TimeUnit.MINUTES.toMillis(autoRefreshTime));
             // 根据uuid将loginUser存入缓存
@@ -140,10 +145,13 @@ public class TokenService {
      */
     private void validateWebClaims(Claims claims) {
         Object version = claims.get("ver");
+        // 历史 Token 没有版本及客户端声明，在迁移期仍按原缓存键协议放行。
         if (version == null) {
             return;
         }
-        if (!"WEB_ADMIN".equals(claims.get("ct")) || !"SYS_USER".equals(claims.get("st"))) {
+        // 已升级的 Token 必须明确属于管理端系统用户，拒绝小程序等其他客户端 Token。
+        if (!ClientTypeEnum.WEB_ADMIN.name().equals(claims.get("ct"))
+            || !SubjectTypeEnum.SYS_USER.name().equals(claims.get("st"))) {
             throw new ApiException(ErrorCode.Client.AUTH_CLIENT_MISMATCH);
         }
     }

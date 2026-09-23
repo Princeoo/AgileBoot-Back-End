@@ -1,5 +1,6 @@
 package com.agileboot.domain.iam.auth;
 
+import com.agileboot.common.enums.auth.ClientTypeEnum;
 import com.agileboot.common.enums.auth.EntryTypeEnum;
 import com.agileboot.common.enums.auth.IdentityTypeEnum;
 import com.agileboot.common.enums.auth.IamUserStatusEnum;
@@ -122,7 +123,7 @@ public class MiniappAuthApplicationService {
         user.setNickname(defaultValue(iamUser.getNickname(), "微信用户"));
         user.setAvatar(defaultValue(iamUser.getAvatar(), ""));
         context.setUser(user);
-        context.setClientType("WECHAT_MINIAPP");
+        context.setClientType(ClientTypeEnum.WECHAT_MINIAPP.name());
         context.setIdentities(workbenchEnabled
             ? Arrays.asList(IdentityTypeEnum.MINIAPP_USER.name(), IdentityTypeEnum.STAFF.name())
             : Collections.singletonList(IdentityTypeEnum.MINIAPP_USER.name()));
