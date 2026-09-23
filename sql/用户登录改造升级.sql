@@ -1,45 +1,52 @@
--- 用户登录改造增量脚本（已有 MySQL 环境执行一次）。
--- 执行前请确认 sys_user 当前尚未存在同名字段和索引。
-ALTER TABLE sys_user
-    ADD COLUMN iam_user_id BIGINT NULL COMMENT '绑定的统一账号ID',
-    ADD COLUMN miniapp_workbench_enabled TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否允许使用小程序工作台',
-    ADD UNIQUE KEY uk_sys_user_iam_user (iam_user_id),
-    ADD KEY idx_sys_user_workbench (miniapp_workbench_enabled, status);
+-- -- 用户登录改造增量脚本（已有 MySQL 环境执行一次）。
+-- -- 执行前请确认 sys_user 当前尚未存在同名字段和索引。
+-- ALTER TABLE sys_user
+--     ADD COLUMN iam_user_id BIGINT NULL COMMENT '绑定的统一账号ID',
+--     ADD COLUMN miniapp_workbench_enabled TINYINT(1) NOT NULL DEFAULT 0 COMMENT '是否允许使用小程序工作台',
+--     ADD UNIQUE KEY uk_sys_user_iam_user (iam_user_id),
+--     ADD KEY idx_sys_user_workbench (miniapp_workbench_enabled, status);
+--
+-- CREATE TABLE iam_user (
+--     user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+--     nickname VARCHAR(64) NOT NULL DEFAULT '微信用户',
+--     avatar VARCHAR(512) NOT NULL DEFAULT '',
+--     phone_number VARCHAR(32) NOT NULL DEFAULT '',
+--     status SMALLINT NOT NULL DEFAULT 1,
+--     last_login_ip VARCHAR(128) NOT NULL DEFAULT '',
+--     last_login_time DATETIME NULL,
+--     creator_id BIGINT NULL,
+--     create_time DATETIME NOT NULL,
+--     updater_id BIGINT NULL,
+--     update_time DATETIME NULL,
+--     deleted TINYINT(1) NOT NULL DEFAULT 0,
+--     KEY idx_iam_user_status (status)
+-- ) COMMENT='统一账号表';
+--
+-- CREATE TABLE iam_wechat_identity (
+--     identity_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+--     user_id BIGINT NOT NULL,
+--     app_id VARCHAR(64) NOT NULL,
+--     open_id VARCHAR(128) NOT NULL,
+--     union_id VARCHAR(128) NOT NULL DEFAULT '',
+--     creator_id BIGINT NULL,
+--     create_time DATETIME NOT NULL,
+--     updater_id BIGINT NULL,
+--     update_time DATETIME NULL,
+--     deleted TINYINT(1) NOT NULL DEFAULT 0,
+--     UNIQUE KEY uk_iam_wechat_app_open (app_id, open_id),
+--     KEY idx_iam_wechat_user (user_id),
+--     KEY idx_iam_wechat_union (union_id)
+-- ) COMMENT='微信身份表';
+--
+-- -- Web 管理端按钮权限，仍挂在现有用户管理菜单下。
+-- INSERT INTO sys_menu (menu_id, menu_name, menu_type, router_name, parent_id, path, is_button, permission,
+--     meta_info, status, remark, creator_id, create_time, deleted)
+-- VALUES
+--     (66, '绑定小程序账号', 0, ' ', 5, '', 1, 'system:user:miniappBind', '{"title":"绑定小程序账号"}', 1, '', 0, NOW(), 0),
+--     (67, '解绑小程序账号', 0, ' ', 5, '', 1, 'system:user:miniappUnbind', '{"title":"解绑小程序账号"}', 1, '', 0, NOW(), 0),
+--     (68, '小程序工作台开关', 0, ' ', 5, '', 1, 'system:user:miniappWorkbench', '{"title":"小程序工作台开关"}', 1, '', 0, NOW(), 0);
 
-CREATE TABLE iam_user (
-    user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    nickname VARCHAR(64) NOT NULL DEFAULT '微信用户',
-    avatar VARCHAR(512) NOT NULL DEFAULT '',
-    phone_number VARCHAR(32) NOT NULL DEFAULT '',
-    status SMALLINT NOT NULL DEFAULT 1,
-    last_login_ip VARCHAR(128) NOT NULL DEFAULT '',
-    last_login_time DATETIME NULL,
-    creator_id BIGINT NULL,
-    create_time DATETIME NOT NULL,
-    updater_id BIGINT NULL,
-    update_time DATETIME NULL,
-    deleted TINYINT(1) NOT NULL DEFAULT 0,
-    KEY idx_iam_user_status (status)
-) COMMENT='统一账号表';
-
-CREATE TABLE iam_wechat_identity (
-    identity_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    user_id BIGINT NOT NULL,
-    app_id VARCHAR(64) NOT NULL,
-    open_id VARCHAR(128) NOT NULL,
-    union_id VARCHAR(128) NOT NULL DEFAULT '',
-    create_time DATETIME NOT NULL,
-    update_time DATETIME NULL,
-    deleted TINYINT(1) NOT NULL DEFAULT 0,
-    UNIQUE KEY uk_iam_wechat_app_open (app_id, open_id),
-    KEY idx_iam_wechat_user (user_id),
-    KEY idx_iam_wechat_union (union_id)
-) COMMENT='微信身份表';
-
--- Web 管理端按钮权限，仍挂在现有用户管理菜单下。
-INSERT INTO sys_menu (menu_id, menu_name, menu_type, router_name, parent_id, path, is_button, permission,
-    meta_info, status, remark, creator_id, create_time, deleted)
-VALUES
-    (66, '绑定小程序账号', 0, ' ', 5, '', 1, 'system:user:miniappBind', '{"title":"绑定小程序账号"}', 1, '', 0, NOW(), 0),
-    (67, '解绑小程序账号', 0, ' ', 5, '', 1, 'system:user:miniappUnbind', '{"title":"解绑小程序账号"}', 1, '', 0, NOW(), 0),
-    (68, '小程序工作台开关', 0, ' ', 5, '', 1, 'system:user:miniappWorkbench', '{"title":"小程序工作台开关"}', 1, '', 0, NOW(), 0);
+-- 修复已创建的微信身份表遗漏 BaseEntity 审计字段的问题（已有 MySQL 环境执行一次）。
+ALTER TABLE iam_wechat_identity
+    ADD COLUMN creator_id BIGINT NULL AFTER union_id,
+    ADD COLUMN updater_id BIGINT NULL AFTER create_time;

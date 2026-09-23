@@ -21,7 +21,7 @@ public class AppController extends BaseController {
     /**
      * 访问首页，提示语
      */
-    @PreAuthorize("hasAuthority('annie')")
+//    @PreAuthorize("hasAuthority('annie')")
     @GetMapping("/list")
     public ResponseDTO<?> appLogin() {
         return ResponseDTO.ok();

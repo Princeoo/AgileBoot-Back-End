@@ -48,3 +48,5 @@ nbdist/
 
 /agileboot-admin/src/main/resources/application-prod.yml
 
+# 本机开发环境覆盖（可包含 Redis 等本地凭据，不提交）
+/application-dev.yml

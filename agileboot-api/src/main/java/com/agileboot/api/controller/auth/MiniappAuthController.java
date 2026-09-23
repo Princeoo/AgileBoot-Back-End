@@ -37,8 +37,8 @@ public class MiniappAuthController {
     private final MiniappTokenService tokenService;
 
     @Operation(summary = "微信小程序登录")
-    @RateLimit(key = RateLimitKey.MINIAPP_LOGIN_KEY, time = 60, maxCount = 10,
-        cacheType = RateLimit.CacheType.REDIS, limitType = RateLimit.LimitType.IP)
+//    @RateLimit(key = RateLimitKey.MINIAPP_LOGIN_KEY, time = 60, maxCount = 10,
+//        cacheType = RateLimit.CacheType.REDIS, limitType = RateLimit.LimitType.IP)
     @PostMapping("/login")
     public ResponseDTO<MiniappLoginResponseDTO> login(@Valid @RequestBody MiniappLoginCommand command,
         HttpServletRequest request) {

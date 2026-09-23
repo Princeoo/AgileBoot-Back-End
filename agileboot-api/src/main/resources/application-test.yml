@@ -13,5 +13,16 @@ spring:
       schema-locations: classpath:h2sql/agileboot_schema.sql
       data-locations: classpath:h2sql/agileboot_data.sql
   redis:
-    host: localhost
-    port: 6379
+    host: ${AGILEBOOT_REDIS_HOST:localhost}
+    port: ${AGILEBOOT_REDIS_PORT:36379}
+    database: ${AGILEBOOT_REDIS_DATABASE:0}
+    password: ${AGILEBOOT_REDIS_PASSWORD:12345}
+
+# 测试环境微信小程序配置。实际凭据由测试环境变量注入，不在仓库中保存。
+miniapp:
+  auth:
+    token-secret: ${MINIAPP_TEST_TOKEN_SECRET:}
+    apps:
+      patient-miniapp:
+        app-id: ${WECHAT_MINIAPP_TEST_APP_ID:}
+        app-secret: ${WECHAT_MINIAPP_TEST_APP_SECRET:}

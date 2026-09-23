@@ -1,8 +1,11 @@
 package com.agileboot.api.customize.service;
 
+import com.agileboot.api.customize.config.MiniappAuthProperties;
 import com.agileboot.common.exception.ApiException;
 import com.agileboot.common.exception.error.ErrorCode.Client;
-import com.agileboot.api.customize.config.MiniappAuthProperties;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +29,8 @@ public class WechatCode2SessionClientImpl implements WechatCode2SessionClient {
 
     private final MiniappAuthProperties properties;
 
+    private final ObjectMapper objectMapper;
+
     @Override
     public WechatSession exchange(String appId, String appSecret, String code) {
         if (isBlank(appId) || isBlank(appSecret)) {
@@ -43,8 +48,9 @@ public class WechatCode2SessionClientImpl implements WechatCode2SessionClient {
             .toUriString();
         long start = System.currentTimeMillis();
         try {
-            ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
-            Map body = response.getBody();
+            // 微信偶尔以 text/plain 返回 JSON，先按字符串接收，避免消息转换器拒绝响应类型。
+            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+            Map<String, Object> body = parseResponse(response.getBody());
             // 微信在 HTTP 200 响应中通过 errcode 表示业务失败，不能只依赖 HTTP 状态判断成功。
             int errCode = body == null || body.get("errcode") == null
                 ? 0 : Integer.parseInt(String.valueOf(body.get("errcode")));
@@ -63,12 +69,24 @@ public class WechatCode2SessionClientImpl implements WechatCode2SessionClient {
             log.warn("wechat code2session unavailable, appId={}, durationMs={}", appId,
                 System.currentTimeMillis() - start);
             throw new ApiException(exception, Client.MINIAPP_PROVIDER_UNAVAILABLE);
+        } catch (JsonProcessingException exception) {
+            log.warn("wechat code2session returned invalid json, appId={}, durationMs={}", appId,
+                System.currentTimeMillis() - start);
+            throw new ApiException(exception, Client.MINIAPP_CODE_INVALID);
         } catch (RuntimeException exception) {
             // 响应格式异常等其余失败按无效登录凭证处理，且日志中不记录 code、secret 或 session_key。
             log.warn("wechat code2session failed, appId={}, durationMs={}", appId,
                 System.currentTimeMillis() - start);
             throw new ApiException(exception, Client.MINIAPP_CODE_INVALID);
         }
+    }
+
+    private Map<String, Object> parseResponse(String responseBody) throws JsonProcessingException {
+        if (isBlank(responseBody)) {
+            return null;
+        }
+        return objectMapper.readValue(responseBody, new TypeReference<Map<String, Object>>() {
+        });
     }
 
     private String stringValue(Object value) {
