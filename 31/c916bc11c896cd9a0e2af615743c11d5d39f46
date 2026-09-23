@@ -1,0 +1,55 @@
+agileboot-common/src/main/java/com/agileboot/common/enums/auth/EntryTypeEnum.java
+  s_14caae58e44dc1::t_1af49bfc8004cc 8-9,13
+  s_14caae58e44dc1::t_381e4b41b71fff 10-12,14-23
+agileboot-common/src/main/java/com/agileboot/common/enums/auth/ClientTypeEnum.java
+  h_229dbb5f330df6 4
+  s_14caae58e44dc1::t_1af49bfc8004cc 8-9,13
+  s_14caae58e44dc1::t_381e4b41b71fff 10-12,14-23
+agileboot-api/src/main/java/com/agileboot/api/customize/service/MiniappTokenService.java
+  s_14caae58e44dc1::t_4a8b2cc8d2bf35 50,54-55,92,98-99,104,138
+  s_14caae58e44dc1::t_483ad400e9d9c1 59,77,94,107
+agileboot-admin/src/main/java/com/agileboot/admin/customize/service/login/TokenService.java
+  s_14caae58e44dc1::t_d5da0647fa14b0 6-7,106-107,153-154
+  s_14caae58e44dc1::t_4a8b2cc8d2bf35 73,96,103,121,148,152
+agileboot-admin/src/main/java/com/agileboot/admin/controller/system/SysUserController.java
+  s_14caae58e44dc1::t_483ad400e9d9c1 188,201,215
+agileboot-common/src/main/java/com/agileboot/common/enums/auth/IamUserStatusEnum.java
+  s_14caae58e44dc1::t_381e4b41b71fff 3-4,8,10-12,16-18,20,23-24,28-35
+  s_14caae58e44dc1::t_1f66231dc6dd51 36
+agileboot-common/src/main/java/com/agileboot/common/enums/auth/IdentityTypeEnum.java
+  s_14caae58e44dc1::t_1af49bfc8004cc 8-9,13
+  s_14caae58e44dc1::t_381e4b41b71fff 10-12,14-23
+agileboot-domain/src/main/java/com/agileboot/domain/iam/auth/MiniappAuthApplicationService.java
+  s_14caae58e44dc1::t_381e4b41b71fff 3
+  s_14caae58e44dc1::t_ac4cece2403b46 126
+agileboot-common/src/main/java/com/agileboot/common/enums/auth/SubjectTypeEnum.java
+  s_14caae58e44dc1::t_1af49bfc8004cc 8,13
+  s_14caae58e44dc1::t_483ad400e9d9c1 9
+  s_14caae58e44dc1::t_381e4b41b71fff 10-12,14-23
+  h_229dbb5f330df6 4
+agileboot-api/src/main/java/com/agileboot/api/customize/service/WechatCode2SessionClientImpl.java
+  s_14caae58e44dc1::t_4a8b2cc8d2bf35 48,59,62,67
+agileboot-api/src/main/java/com/agileboot/api/customize/service/MiniappAuthService.java
+  s_14caae58e44dc1::t_4a8b2cc8d2bf35 35-36,47-48,69
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "31c916bc11c896cd9a0e2af615743c11d5d39f46",
+  "prompts": {},
+  "humans": {
+    "h_229dbb5f330df6": {
+      "author": "wangxj <wangxiaojie@helipay.com>"
+    }
+  },
+  "sessions": {
+    "s_14caae58e44dc1": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0cd70-5cf5-7e81-922e-6c0cd48238ef",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "wangxj <wangxiaojie@helipay.com>"
+    }
+  }
+}
