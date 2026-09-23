@@ -23,5 +23,5 @@ miniapp:
     token-secret: 123123
     apps:
       patient-miniapp:
-        app-id: wx294ea234171da972
-        app-secret: b83daeec7cc475d3411ed30175e4bbf3
+        app-id: wx68edc3bb7c889457
+        app-secret: 6a983407afd4264b2c3e5fc65050cda5
