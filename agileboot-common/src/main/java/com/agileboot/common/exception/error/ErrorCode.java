@@ -212,6 +212,8 @@ public enum ErrorCode implements ErrorCodeInterface {
 
         STAFF_BIND_INVALID(10518, "绑定凭证无效或无法完成绑定", "Business.STAFF_BIND_INVALID"),
 
+        IAM_USER_STATUS_INVALID(10521, "小程序用户状态无效：{}", "Business.IAM_USER_STATUS_INVALID"),
+
         STAFF_ALREADY_BOUND(10519, "账号已完成员工绑定", "Business.STAFF_ALREADY_BOUND"),
 
         STAFF_WORKBENCH_DISABLED(10520, "员工工作台未启用", "Business.STAFF_WORKBENCH_DISABLED"),

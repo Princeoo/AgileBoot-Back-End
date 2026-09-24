@@ -117,6 +117,9 @@ INSERT INTO  sys_menu  VALUES (65, '个人中心', 1, 'PersonalCenter', 2053, '/
 INSERT INTO  sys_menu  VALUES (66, '绑定小程序账号', 0, ' ', 5, '', 1, 'system:user:miniappBind', '{"title":"绑定小程序账号"}', 1, '', 0, CURRENT_TIMESTAMP, null, null, 0);
 INSERT INTO  sys_menu  VALUES (67, '解绑小程序账号', 0, ' ', 5, '', 1, 'system:user:miniappUnbind', '{"title":"解绑小程序账号"}', 1, '', 0, CURRENT_TIMESTAMP, null, null, 0);
 INSERT INTO  sys_menu  VALUES (68, '小程序工作台开关', 0, ' ', 5, '', 1, 'system:user:miniappWorkbench', '{"title":"小程序工作台开关"}', 1, '', 0, CURRENT_TIMESTAMP, null, null, 0);
+INSERT INTO  sys_menu  VALUES (69, '小程序用户', 1, 'MiniappUser', 1, '/system/miniapp-user/index', 0, 'system:miniapp-user:list', '{"title":"小程序用户","icon":"ep:cellphone","showParent":1}', 1, '小程序用户管理菜单', 0, CURRENT_TIMESTAMP, null, null, 0);
+INSERT INTO  sys_menu  VALUES (70, '小程序用户查询', 0, ' ', 69, '', 1, 'system:miniapp-user:query', '{"title":"小程序用户查询"}', 1, '', 0, CURRENT_TIMESTAMP, null, null, 0);
+INSERT INTO  sys_menu  VALUES (71, '小程序用户状态修改', 0, ' ', 69, '', 1, 'system:miniapp-user:edit', '{"title":"小程序用户状态修改"}', 1, '', 0, CURRENT_TIMESTAMP, null, null, 0);
 
 
 -- ----------------------------
@@ -217,6 +220,9 @@ INSERT INTO `sys_role_menu` VALUES ('2', '61');
 INSERT INTO `sys_role_menu` VALUES ('2', '66');
 INSERT INTO `sys_role_menu` VALUES ('2', '67');
 INSERT INTO `sys_role_menu` VALUES ('2', '68');
+INSERT INTO `sys_role_menu` VALUES ('2', '69');
+INSERT INTO `sys_role_menu` VALUES ('2', '70');
+INSERT INTO `sys_role_menu` VALUES ('2', '71');
 -- roleId = 2的权限 特地少一个 方便测试
 INSERT INTO `sys_role_menu` VALUES ('3', '1');
 

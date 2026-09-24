@@ -2,6 +2,8 @@ package com.agileboot.domain.iam.user.db;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import java.util.List;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.agileboot.domain.iam.user.query.IamUserQuery;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,5 +16,10 @@ public class IamUserServiceImpl extends ServiceImpl<IamUserMapper, IamUserEntity
     @Override
     public List<IamUserEntity> listUnbound() {
         return baseMapper.listUnbound();
+    }
+
+    @Override
+    public Page<IamUserDO> getUserList(IamUserQuery query) {
+        return baseMapper.getUserList(query.toPage(), query.toQueryWrapper());
     }
 }
