@@ -1,0 +1,75 @@
+agileboot-domain/src/main/java/com/agileboot/domain/iam/user/db/IamUserDO.java
+  s_68054173c82cb6::t_195a0d6941f2a6 1-22,26
+  s_68054173c82cb6::t_aaf3d12837bef7 23-25
+agileboot-domain/src/main/java/com/agileboot/domain/iam/user/db/IamUserMapper.java
+  s_68054173c82cb6::t_aaf3d12837bef7 23-25
+  s_68054173c82cb6::t_cc56785536a548 3,29
+  s_68054173c82cb6::t_5d9afd7d8b7453 5-8,20-22,26-28
+agileboot-domain/src/main/java/com/agileboot/domain/iam/user/db/IamUserServiceImpl.java
+  s_68054173c82cb6::t_5d9afd7d8b7453 5-6,20-23
+  s_68054173c82cb6::t_aedd7e1dea5eb0 24
+agileboot-domain/src/main/java/com/agileboot/domain/iam/wechat/db/IamWechatIdentityServiceImpl.java
+  s_68054173c82cb6::t_18e14755d19cfa 4,18-21
+  s_68054173c82cb6::t_e587e77ee5c839 22
+agileboot-domain/src/main/java/com/agileboot/domain/iam/user/command/ChangeIamUserStatusCommand.java
+  s_68054173c82cb6::t_195a0d6941f2a6 1-2,4-11,13-14
+  s_68054173c82cb6::t_a46492e34b8fb2 3,12
+agileboot-domain/src/main/java/com/agileboot/domain/iam/user/query/IamUserQuery.java
+  s_68054173c82cb6::t_11313559ffbb3f 30
+  s_68054173c82cb6::t_195a0d6941f2a6 1-29,31-32,34-36,54
+  s_68054173c82cb6::t_de6b6ae5c41e04 37-53
+  s_68054173c82cb6::t_cc56785536a548 33
+agileboot-infrastructure/src/main/resources/h2sql/agileboot_data.sql
+  s_68054173c82cb6::t_96d1f56998e671 120-122,223-225
+agileboot-domain/src/main/java/com/agileboot/domain/iam/wechat/db/IamWechatIdentityService.java
+  s_68054173c82cb6::t_18e14755d19cfa 4,12-13
+agileboot-domain/src/main/java/com/agileboot/domain/iam/user/IamUserApplicationService.java
+  s_68054173c82cb6::t_aaf3d12837bef7 12,14-15,35-36,58-63
+  s_68054173c82cb6::t_11313559ffbb3f 8,33-34,38,47-55
+  s_68054173c82cb6::t_5d9afd7d8b7453 1-7,10-11,13,18-21,23-32,37,39-46,56,64-80
+  s_68054173c82cb6::t_18e14755d19cfa 57
+  s_68054173c82cb6::t_4f7a8702ab9d8b 9,16-17,22
+agileboot-domain/src/main/java/com/agileboot/domain/iam/user/dto/WechatIdentitySummaryDTO.java
+  s_68054173c82cb6::t_cc56785536a548 27-29
+  s_68054173c82cb6::t_aaf3d12837bef7 1-26,30-35
+sql/agileboot-20230814.sql
+  s_68054173c82cb6::t_a46492e34b8fb2 169-171
+  s_68054173c82cb6::t_bc8620e66ec149 337-339
+agileboot-admin/src/main/java/com/agileboot/admin/controller/system/IamUserController.java
+  s_68054173c82cb6::t_a46492e34b8fb2 4-6,9-13,21-23,38-66,68
+  s_68054173c82cb6::t_4f7a8702ab9d8b 19
+agileboot-domain/src/main/java/com/agileboot/domain/iam/user/dto/IamUserDTO.java
+  s_68054173c82cb6::t_aaf3d12837bef7 6,24-25,41
+  s_68054173c82cb6::t_195a0d6941f2a6 1-5,7-23,26-40,42-44
+agileboot-domain/src/test/java/com/agileboot/domain/iam/user/IamUserApplicationServiceTest.java
+  s_68054173c82cb6::t_aaf3d12837bef7 20,32,40
+  s_68054173c82cb6::t_18e14755d19cfa 72
+  s_68054173c82cb6::t_17a5eb702f4928 39
+  s_68054173c82cb6::t_cf8c077d196443 23
+  s_68054173c82cb6::t_bc8620e66ec149 1-19,21-22,24-31,33-38,41-71,73-107
+agileboot-common/src/main/java/com/agileboot/common/exception/error/ErrorCode.java
+  s_68054173c82cb6::t_cc56785536a548 215
+  s_68054173c82cb6::t_07bcdd863e8538 216
+sql/小程序用户管理升级.sql
+  s_68054173c82cb6::t_ddc9f657db1aa8 1-17
+agileboot-domain/src/main/java/com/agileboot/domain/iam/user/db/IamUserService.java
+  s_68054173c82cb6::t_5d9afd7d8b7453 5-6,14-15
+agileboot-domain/src/main/java/com/agileboot/domain/iam/wechat/db/IamWechatIdentityMapper.java
+  s_68054173c82cb6::t_18e14755d19cfa 6,17-20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.22",
+  "base_commit_sha": "35a22fdc45db2f533779f450e1c138ba036e780b",
+  "prompts": {},
+  "sessions": {
+    "s_68054173c82cb6": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "01a0d12b-ba58-7852-815f-5b35cba13f08",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "wangxj <wangxiaojie@helipay.com>"
+    }
+  }
+}
